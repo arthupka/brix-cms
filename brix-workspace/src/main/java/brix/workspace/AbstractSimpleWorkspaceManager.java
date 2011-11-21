@@ -199,48 +199,52 @@ public abstract class AbstractSimpleWorkspaceManager extends AbstractWorkspaceMa
 
     public Workspace createWorkspace()
     {
-        Session session = null;
-        try
-        {
-            synchronized (this)
-            {
-                if (deletedWorkspaceNames.size() > 0)
-                {
-                    String id = deletedWorkspaceNames.get(deletedWorkspaceNames.size() - 1);
-                    deletedWorkspaceNames.remove(id);
-                    availableWorkspaceNames.add(id);
-                    session = createSession(id);
-                    Node node = (Node)session.getItem(NODE_PATH);
-                    node.setProperty(DELETED_PROPERTY, (String)null);
-                    node.save();
-                    closeSession(session, true);
-                    session = null;
-                    return new WorkspaceImpl(id);
-                }
-            }
+    	return createBrixWorkspace( getWorkspaceId( UUID.randomUUID() ) ); 
+    }	
+    
+    protected Workspace createBrixWorkspace(String name) {
+    	 Session session = null;
+         try
+         {
+             synchronized (this)
+             {
+                 if (deletedWorkspaceNames.size() > 0)
+                 {
+                     String id = deletedWorkspaceNames.get(deletedWorkspaceNames.size() - 1);
+                     deletedWorkspaceNames.remove(id);
+                     availableWorkspaceNames.add(id);
+                     session = createSession(id);
+                     Node node = (Node)session.getItem(NODE_PATH);
+                     node.setProperty(DELETED_PROPERTY, (String)null);
+                     node.save();
+                     closeSession(session, true);
+                     session = null;
+                     return new WorkspaceImpl(id);
+                 }
+             }
 
-            String id = getWorkspaceId(UUID.randomUUID());
-            createWorkspace(id);
-            synchronized (this)
-            {
-                session = createSession(id);
-                Node node = session.getRootNode().addNode(NODE_NAME, "nt:unstructured");
-                node.addMixin("mix:lockable");
-                node.addNode(PROPERTIES_NODE, "nt:unstructured");
-                closeSession(session, true);
-                session = null;
-                availableWorkspaceNames.add(id);
-            }
+             createWorkspace(name);
+             synchronized (this)
+             {
+                 session = createSession(name);
+                 Node node = session.getRootNode().addNode(NODE_NAME, "nt:unstructured");
+                 node.addMixin("mix:lockable");
+                 node.addNode(PROPERTIES_NODE, "nt:unstructured");
+                 closeSession(session, true);
+                 session = null;
+                 availableWorkspaceNames.add(name);
+             }
 
-            return new WorkspaceImpl(id);
+             return new WorkspaceImpl(name);
 
-        }
-        catch (RepositoryException e)
-        {
-            closeSession(session, false);
-            throw new JcrException(e);
-        }
+         }
+         catch (RepositoryException e)
+         {
+             closeSession(session, false);
+             throw new JcrException(e);
+         }
     }
+    
 
     private void cleanWorkspace(Session session) throws RepositoryException
     {

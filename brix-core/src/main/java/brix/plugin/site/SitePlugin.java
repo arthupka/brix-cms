@@ -89,6 +89,7 @@ import brix.web.tab.AbstractWorkspaceTab;
 import brix.web.tab.IBrixTab;
 import brix.workspace.JcrException;
 import brix.workspace.Workspace;
+import brix.workspace.WorkspaceManager;
 
 public class SitePlugin implements SessionAwarePlugin
 {
@@ -333,7 +334,8 @@ public class SitePlugin implements SessionAwarePlugin
 
     public Workspace createSite(String name, String state)
     {
-        Workspace workspace = brix.getWorkspaceManager().createWorkspace();
+        WorkspaceManager workspaceManager = brix.getWorkspaceManager();
+		Workspace workspace = workspaceManager.createWorkspace();
         workspace.setAttribute(Brix.WORKSPACE_ATTRIBUTE_TYPE, WORKSPACE_TYPE);
         setWorkspaceName(workspace, name);
         setWorkspaceState(workspace, state);

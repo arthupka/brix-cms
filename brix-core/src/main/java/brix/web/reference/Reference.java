@@ -46,7 +46,7 @@ public class Reference implements Serializable, IDetachable
 	private Type type = Type.NODE;
 
 	public Reference()
-	{
+	{ 
 
 	}
 

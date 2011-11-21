@@ -24,8 +24,20 @@ import brix.plugin.site.page.tile.admin.TileEditorPanel;
 
 public class UnknownTile implements Tile
 {
+	
+	String type = "";;
+	
+    public UnknownTile(String type) {
+		super();
+		this.type = type;
+	}
+    
 
-    public String getDisplayName()
+    public UnknownTile() {
+	}
+
+
+	public String getDisplayName()
     {
         return "Unknown";
     }
@@ -62,7 +74,7 @@ public class UnknownTile implements Tile
 
     public Component newViewer(String id, IModel<BrixNode> tileNode)
     {
-        return new Label(id, "Unknown Tile");
+        return new Label(id, "Unknown Tile " + type );
     }
 
     public boolean requiresSSL(IModel<BrixNode> tileNode)

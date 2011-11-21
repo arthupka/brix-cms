@@ -80,7 +80,7 @@ public interface Tile
 					return t;
 				}
 			}
-			return UnknownTile.INSTANCE;
+			return new UnknownTile( type );
 		}
 
 	}

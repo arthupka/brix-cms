@@ -93,6 +93,16 @@ public abstract class Brix
 
 		final ExtensionPointRegistry registry = config.getRegistry();
 
+		registerExtensions( registry );
+		// registry.register(Plugin.POINT, new MenuPlugin(this));
+		// registry.register(Plugin.POINT, new SnapshotPlugin(this));
+		// registry.register(Plugin.POINT, new PrototypePlugin(this));
+		// registry.register(Plugin.POINT, new PublishingPlugin(this));
+
+
+	}
+
+	protected void registerExtensions(final ExtensionPointRegistry registry) {
 		registry.register(RepositoryInitializer.POINT, new BrixRepositoryInitializer());
 
 		registry.register(JcrNodeWrapperFactory.POINT, SiteRootNode.FACTORY);
@@ -108,12 +118,6 @@ public abstract class Brix
 		registry.register(Tile.POINT, new PageTile());
 
 		registry.register(Plugin.POINT, new SitePlugin(this));
-		// registry.register(Plugin.POINT, new MenuPlugin(this));
-		// registry.register(Plugin.POINT, new SnapshotPlugin(this));
-		// registry.register(Plugin.POINT, new PrototypePlugin(this));
-		// registry.register(Plugin.POINT, new PublishingPlugin(this));
-
-
 	}
 
 	public static Brix get(Application application)
